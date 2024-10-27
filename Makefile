@@ -4,6 +4,9 @@ check:
 build:
 	cargo build --release
 
+run:
+	cargo run
+
 format:
 	cargo fmt
 
@@ -13,4 +16,4 @@ lint:
 test:
 	cargo test
 
-all: check build format lint test
+all: check build run format lint test
