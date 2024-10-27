@@ -1,5 +1,5 @@
 use chrono::Local;
-use drug_use_sqlite::{delete_row, extract, insert_row, load, select_rows, update_row};
+use drug_use_sqlite::{delete_row, extract, insert_row, load_transform, select_rows, update_row};
 use std::fs::OpenOptions;
 use std::io::Write;
 
@@ -29,8 +29,8 @@ fn main() {
         return;
     }
 
-    println!("Loading data into database...");
-    if let Err(e) = load(file_path) {
+    println!("Loading and transforming data into database...");
+    if let Err(e) = load_transform(file_path) {
         eprintln!("Error in load: {}", e);
         return;
     }

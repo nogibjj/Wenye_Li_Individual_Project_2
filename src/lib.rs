@@ -185,8 +185,11 @@ pub fn extract(url: &str, file_path: &str) -> Result<(), Box<dyn Error>> {
     Ok(())
 }
 
-pub fn load(dataset: &str) -> Result<(), Box<dyn Error>> {
-    log_operation("Load", &format!("Loading data from {}", dataset))?;
+pub fn load_transform(dataset: &str) -> Result<(), Box<dyn Error>> {
+    log_operation(
+        "Load and transform",
+        &format!("Loading and transforming data from {}", dataset),
+    )?;
 
     let mut conn = Connection::open(DB_FILE)?;
     conn.execute("DROP TABLE IF EXISTS DrugUse", [])?;
@@ -273,8 +276,11 @@ pub fn load(dataset: &str) -> Result<(), Box<dyn Error>> {
     tx.commit()?;
 
     log_operation(
-        "Load",
-        &format!("Successfully loaded {} rows into database", row_count),
+        "Load and transform",
+        &format!(
+            "Successfully loaded and transformed {} rows into database",
+            row_count
+        ),
     )?;
     Ok(())
 }
