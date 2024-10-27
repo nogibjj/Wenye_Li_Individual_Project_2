@@ -1,0 +1,28 @@
+name: CI
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+    branches: ["main"]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v2
+        with:
+          python-version: 3.12
+      - name: install packages
+        run: make install
+      - name: format
+        run: make format
+      - name: lint
+        run: make lint
+      - name: test
+        env:
+          SERVER_HOSTNAME: ${{ secrets.SERVER_HOSTNAME }}
+          HTTP_PATH: ${{ secrets.HTTP_PATH }}
+          DATABRICKS_KEY: ${{ secrets.DATABRICKS_KEY }}
+        run: make test
