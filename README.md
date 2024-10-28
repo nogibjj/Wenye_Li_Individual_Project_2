@@ -24,6 +24,66 @@ This CLI application processes and analyzes drug use data from FiveThirtyEight's
 - Logs all database operations
 - Provides test coverage for all main functionalities
 
+## Usage Instructions
+
+The application supports the following commands:
+
+### 1. Initial Setup
+
+```bash
+# Extract data from source
+cargo run -- extract
+
+# Load data into database
+cargo run -- load
+```
+
+### 2. CRUD Operations
+
+#### Create (Insert)
+
+```bash
+# Insert predefined test data
+cargo run -- insert
+```
+
+#### Read (Select)
+
+```bash
+# View all records
+cargo run -- select
+```
+
+#### Update
+
+```bash
+# Update specific age group data
+cargo run -- update -a "30-34" -f alcohol_use -v 70.0
+```
+
+#### Delete
+
+```bash
+# Delete specific age group
+cargo run -- delete -a "26-29"
+```
+
+### 3. Custom Queries
+
+```bash
+# Execute custom SQL query
+cargo run -- query -s "SELECT age, alcohol_use FROM DrugUse WHERE alcohol_use > 50"
+
+# Or use interactive mode
+cargo run -- query
+```
+
+### Operation Logging
+
+All operations are logged in `db_operations.md` with timestamps and details.
+
+[Rest of your original README content...]
+
 ### Running the Application in Codespaces
 
 Once your codespace is ready:

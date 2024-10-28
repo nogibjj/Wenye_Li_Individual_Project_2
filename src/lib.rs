@@ -403,3 +403,43 @@ pub fn delete_row(age: &str) -> Result<(), Box<dyn Error>> {
     log_operation("Delete", &format!("Deleted {} rows", rows_affected))?;
     Ok(())
 }
+
+pub fn custom_query(query: &str) -> Result<(), Box<dyn Error>> {
+    log_operation("Custom Query", &format!("Executing query: {}", query))?;
+
+    let conn = Connection::open(DB_FILE)?;
+    let mut stmt = conn.prepare(query)?;
+
+    if query.trim().to_uppercase().starts_with("SELECT") {
+        // Get column names
+        let columns: Vec<String> = stmt.column_names().into_iter().map(String::from).collect();
+        
+        let rows = stmt.query_map([], |row| {
+            let mut values = Vec::new();
+            for i in 0..columns.len() {
+                values.push(match row.get_ref(i)? {
+                    rusqlite::types::ValueRef::Null => "NULL".to_string(),
+                    rusqlite::types::ValueRef::Integer(i) => i.to_string(),
+                    rusqlite::types::ValueRef::Real(f) => f.to_string(),
+                    rusqlite::types::ValueRef::Text(s) => String::from_utf8_lossy(s).to_string(),
+                    rusqlite::types::ValueRef::Blob(_) => "BLOB".to_string(),
+                });
+            }
+            Ok(values)
+        })?;
+
+        // Print column headers
+        println!("{:?}", columns);
+        
+        // Print rows
+        for row in rows {
+            println!("{:?}", row?);
+        }
+    } else {
+        let rows_affected = stmt.execute([])?;
+        println!("Query executed successfully. Rows affected: {}", rows_affected);
+    }
+
+    log_operation("Custom Query", "Query executed successfully")?;
+    Ok(())
+}
