@@ -82,8 +82,6 @@ cargo run -- query
 
 All operations are logged in `db_operations.md` with timestamps and details.
 
-[Rest of your original README content...]
-
 ### Running the Application in Codespaces
 
 Once your codespace is ready:
@@ -152,4 +150,4 @@ During development, GitHub Copilot was utilized to:
 
 ## Video Demo
 
-[Watch the demo on YouTube](your-youtube-link)
+[Watch the demo on YouTube](https://youtu.be/D6H83qTBGgM)
